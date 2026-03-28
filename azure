@@ -1,0 +1,26 @@
+#developer-6 code
+CREATE OR REPLACE PACKAGE bulk_emp_pkg AS
+   PROCEDURE increase_salary(p_percent NUMBER);
+END;
+/
+
+CREATE OR REPLACE PACKAGE BODY bulk_emp_pkg AS
+
+   PROCEDURE increase_salary(p_percent NUMBER) IS
+
+      TYPE emp_table IS TABLE OF employees%ROWTYPE;
+      v_emps emp_table;
+
+   BEGIN
+      SELECT * BULK COLLECT INTO v_emps FROM employees;
+
+      FORALL i IN 1..v_emps.COUNT
+         UPDATE employees
+         SET salary = salary + (salary * p_percent/100)
+         WHERE employee_id = v_emps(i).employee_id;
+
+   END;
+
+END;
+/
+
