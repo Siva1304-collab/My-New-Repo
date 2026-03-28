@@ -34,3 +34,35 @@ CREATE OR REPLACE PACKAGE BODY bank_pkg AS
 END bank_pkg;
 /
 
+#developer-2 code
+CREATE OR REPLACE PACKAGE emp_mgmt_pkg AS
+   PROCEDURE add_emp(p_id NUMBER, p_name VARCHAR2, p_salary NUMBER);
+   PROCEDURE update_salary(p_id NUMBER, p_salary NUMBER);
+   FUNCTION get_emp(p_id NUMBER) RETURN VARCHAR2;
+END;
+/
+
+CREATE OR REPLACE PACKAGE BODY emp_mgmt_pkg AS
+
+   PROCEDURE add_emp(p_id NUMBER, p_name VARCHAR2, p_salary NUMBER) IS
+   BEGIN
+      INSERT INTO employees VALUES (p_id, p_name, p_salary);
+   END;
+
+   PROCEDURE update_salary(p_id NUMBER, p_salary NUMBER) IS
+   BEGIN
+      UPDATE employees
+      SET salary = p_salary
+      WHERE employee_id = p_id;
+   END;
+
+   FUNCTION get_emp(p_id NUMBER) RETURN VARCHAR2 IS
+      v_name VARCHAR2(50);
+   BEGIN
+      SELECT name INTO v_name FROM employees WHERE employee_id = p_id;
+      RETURN v_name;
+   END;
+
+END;
+/
+
