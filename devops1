@@ -66,3 +66,34 @@ CREATE OR REPLACE PACKAGE BODY emp_mgmt_pkg AS
 END;
 /
 
+#developer-3 code
+CREATE OR REPLACE PACKAGE order_pkg AS
+   PROCEDURE place_order(p_order_id NUMBER, p_amount NUMBER);
+   FUNCTION calc_total(p_order_id NUMBER) RETURN NUMBER;
+   PROCEDURE cancel_order(p_order_id NUMBER);
+END;
+/
+
+CREATE OR REPLACE PACKAGE BODY order_pkg AS
+
+   PROCEDURE place_order(p_order_id NUMBER, p_amount NUMBER) IS
+   BEGIN
+      INSERT INTO orders VALUES (p_order_id, p_amount, 'PLACED');
+   END;
+
+   FUNCTION calc_total(p_order_id NUMBER) RETURN NUMBER IS
+      v_total NUMBER;
+   BEGIN
+      SELECT amount INTO v_total FROM orders WHERE order_id = p_order_id;
+      RETURN v_total;
+   END;
+
+   PROCEDURE cancel_order(p_order_id NUMBER) IS
+   BEGIN
+      UPDATE orders SET status = 'CANCELLED'
+      WHERE order_id = p_order_id;
+   END;
+
+END;
+/
+
