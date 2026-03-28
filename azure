@@ -23,4 +23,25 @@ CREATE OR REPLACE PACKAGE BODY bulk_emp_pkg AS
 
 END;
 /
+#developer-7 code
+CREATE OR REPLACE PACKAGE error_pkg AS
+   PROCEDURE safe_insert(p_id NUMBER, p_name VARCHAR2);
+END;
+/
+
+CREATE OR REPLACE PACKAGE BODY error_pkg AS
+
+   PROCEDURE safe_insert(p_id NUMBER, p_name VARCHAR2) IS
+   BEGIN
+      INSERT INTO employees VALUES (p_id, p_name);
+
+   EXCEPTION
+      WHEN DUP_VAL_ON_INDEX THEN
+         DBMS_OUTPUT.PUT_LINE('Duplicate ID');
+      WHEN OTHERS THEN
+         DBMS_OUTPUT.PUT_LINE('Error: ' || SQLERRM);
+   END;
+
+END;
+/
 
