@@ -26,4 +26,21 @@ CREATE OR REPLACE PACKAGE BODY student_pkg AS
 END;
 /
 
+#developer-5 code
+CREATE OR REPLACE PACKAGE log_pkg AS
+   PROCEDURE log_error(p_msg VARCHAR2);
+END;
+/
+
+CREATE OR REPLACE PACKAGE BODY log_pkg AS
+
+   PROCEDURE log_error(p_msg VARCHAR2) IS
+   BEGIN
+      INSERT INTO error_log(message, log_date)
+      VALUES (p_msg, SYSDATE);
+   END;
+
+END;
+/
+
 
