@@ -1,0 +1,36 @@
+#developer-1 code
+CREATE OR REPLACE PACKAGE BODY bank_pkg AS
+
+   PROCEDURE deposit(p_acc_id NUMBER, p_amount NUMBER) IS
+   BEGIN
+      UPDATE accounts
+      SET balance = balance + p_amount
+      WHERE account_id = p_acc_id;
+   END;
+
+   PROCEDURE withdraw(p_acc_id NUMBER, p_amount NUMBER) IS
+      v_balance NUMBER;
+   BEGIN
+      SELECT balance INTO v_balance 
+      FROM accounts WHERE account_id = p_acc_id;
+
+      IF v_balance >= p_amount THEN
+         UPDATE accounts
+         SET balance = balance - p_amount
+         WHERE account_id = p_acc_id;
+      ELSE
+         DBMS_OUTPUT.PUT_LINE('Insufficient balance');
+      END IF;
+   END;
+
+   FUNCTION get_balance(p_acc_id NUMBER) RETURN NUMBER IS
+      v_balance NUMBER;
+   BEGIN
+      SELECT balance INTO v_balance 
+      FROM accounts WHERE account_id = p_acc_id;
+      RETURN v_balance;
+   END;
+
+END bank_pkg;
+/
+
