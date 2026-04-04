@@ -44,3 +44,17 @@ END;
 /
 
 
+
+
+Scenario: Automating Builds fora GitHub Repository
+1. Webhooks:
+A developer pushes code to the main branch.
+GitHub sends a webhook request to Jenkins, triggering an
+immediate build.
+Ideal for active development teams.
+2. Poll SCM:
+Jenkins checks the repository every 5 minutes.
+If changes are detected in the main branch, it triggers a build.
+Slight delay but works even if webhooks are unavailable.
+3. Build Periodically:
+Jenkins triggers a build every night
